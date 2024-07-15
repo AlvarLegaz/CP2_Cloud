@@ -22,3 +22,7 @@ resource "azurerm_network_security_group" "mySecGroup" {
 }
 
 # Vinculamos el security group a la interface de red
+resource "azurerm_network_interface_security_group_association" "mySecGroupAssociation1" {
+  network_interface_id      =  azurerm_network_interface.myNIC.id
+  network_security_group_id =  azurerm_network_security_group.mySecGroup.id
+}
