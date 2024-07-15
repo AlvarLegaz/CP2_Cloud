@@ -1,16 +1,16 @@
 # Creamos una máquina virtual
 resource "azurerm_linux_virtual_machine" "myVM1" {
-  name                = "cp1_vm1"
+  name                = "cp2-vm1"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = var.vm_size
   admin_username      = "adminuser"
-  network_interface_ids = [azurerm_network_interface.rg.id ]
+  network_interface_ids = [azurerm_network_interface.myNIC.id ]
   disable_password_authentication = true
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("~/.ssh/id_rsa.pub") # Generar clave en PC trabajo usando p.e.ssh-keygen
   }
 
   os_disk {
