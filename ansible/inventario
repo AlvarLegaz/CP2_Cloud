@@ -1,0 +1,2 @@
+[vm1_aws]
+ubuntu@54.161.16.172 ansible_ssh_private_key_file=/home/alegaz/.ssh/labsuser
