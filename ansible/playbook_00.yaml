@@ -1,0 +1,19 @@
+---
+- hosts: all
+  tasks:
+    - name: Ejecutar el comando whoami
+      command: whoami
+      register: whoami_output
+
+    - name: Mostrar el resultado de whoami
+      debug:
+        msg: "El resultado de whoami es: {{ whoami_output.stdout }}"
+
+    - name: Ejecutar el comando pwd
+      command: pwd
+      register: pwd_output
+
+    - name: Mostrar el resultado de pwd
+      debug:
+        msg: "El resultado de pwd es: {{ pwd_output.stdout }}"
+...

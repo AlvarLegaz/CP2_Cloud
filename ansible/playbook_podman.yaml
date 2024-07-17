@@ -1,0 +1,49 @@
+- name: 'Install podman'
+  hosts: all
+  tasks:
+    - name: Ejecutar el comando whoami
+      command: whoami
+      register: whoami_output
+
+    - name: Mostrar el resultado de whoami
+      debug:
+        msg: "El resultado de whoami es: {{ whoami_output.stdout }}"
+
+    - name: Update packet list
+      apt:
+        update_cache: yes
+
+    - name: Install Podman
+      apt:
+        name: podman
+        state: present
+
+    - name: Pull NGIX image
+      containers.podman.podman_image:
+        name: docker.io/nginx:latest
+        state: present
+
+    - name: Check NGIX image
+      command: podman images
+      register: images_output
+
+    - name: Show images pulled
+      debug:
+        msg: "{{ images_output.stdout_lines }}"
+
+    - name: Ejecutar un contenedor con Podman
+      containers.podman.podman_container:
+        name: nginx_container
+        image: docker.io/nginx:latest
+        state: started
+        publish:
+          - "8090:80"
+        detach: true
+
+    - name: Comprobar los contenedores en ejecución
+      command: podman ps
+      register: ps_output
+
+    - name: Mostrar los contenedores en ejecución
+      debug:
+        msg: "{{ ps_output.stdout_lines }}"
