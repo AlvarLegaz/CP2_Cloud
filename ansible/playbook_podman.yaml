@@ -1,5 +1,15 @@
 - name: 'Install podman'
-  hosts: all
+  hosts: vm1_azure
+
+  vars_prompt:
+    - name: "registry_username"
+      prompt: "Azure container register username"
+      private: no
+
+    - name: "registry_password"
+      prompt: "Password"
+      private: no
+
   tasks:
     - name: Ejecutar el comando whoami
       command: whoami
@@ -10,20 +20,25 @@
         msg: "El resultado de whoami es: {{ whoami_output.stdout }}"
 
     - name: Update packet list
+      become: yes
       apt:
         update_cache: yes
 
     - name: Install Podman
+      become: yes
       apt:
         name: podman
         state: present
+     
+    - name: Autenticarse en el registro del contenedor
+      command: podman login alegazcp2container.azurecr.io -u "{{ registry_username }}" -p "{{registry_password}}"
 
-    - name: Pull NGIX image
+    - name: Pull NGINX image
       containers.podman.podman_image:
-        name: docker.io/nginx:latest
+        name: alegazcp2container.azurecr.io/nginx
         state: present
 
-    - name: Check NGIX image
+    - name: Check NGINX image
       command: podman images
       register: images_output
 
@@ -34,9 +49,9 @@
     - name: Ejecutar un contenedor con Podman
       containers.podman.podman_container:
         name: nginx_container
-        image: docker.io/nginx:latest
+        image: alegazcp2container.azurecr.io/nginx
         state: started
-        publish:
+        ports:
           - "8090:80"
         detach: true
 
@@ -47,3 +62,4 @@
     - name: Mostrar los contenedores en ejecución
       debug:
         msg: "{{ ps_output.stdout_lines }}"
+
