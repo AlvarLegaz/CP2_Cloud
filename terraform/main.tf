@@ -36,8 +36,8 @@ resource "azurerm_storage_account" "stAccount" {
 
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = "my-aks-cluster"
-  location            = azurerm_resource_group.aks_rg.location
-  resource_group_name = azurerm_resource_group.aks_rg.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   dns_prefix          = "myaks"
 
   default_node_pool {
