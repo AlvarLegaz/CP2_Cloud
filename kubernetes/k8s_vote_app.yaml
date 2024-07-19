@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: backend
+  namespace: azurevoteapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: alegazcp2containerregistry.azurecr.io/redis:6.0.8
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: backend          
+---   
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: frontend
+  namespace: azurevoteapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - name: frontend
+        image: alegazcp2containerregistry.azurecr.io/azure-vote-front:v1
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"  
+        ports:
+        - containerPort: 80
+        env:
+        - name: REDIS
+          value: "backend"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: azurevoteapp
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: frontend
+          
+          
