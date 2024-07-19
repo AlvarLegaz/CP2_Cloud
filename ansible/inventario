@@ -2,4 +2,4 @@
 ubuntu@54.161.16.172 ansible_ssh_private_key_file=/home/alegaz/.ssh/labsuser.pem
 
 [vm1_azure]
-adminuser@52.174.68.131 ansible_ssh_private_key_file=/home/alegaz/.ssh/id_rsa_vm1_azure.pem
+adminuser@51.144.166.167 ansible_ssh_private_key_file=/home/alegaz/.ssh/id_rsa_vm1_azure.pem

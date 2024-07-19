@@ -1,0 +1,53 @@
+- name: Run the whoami command
+  command: whoami
+  register: whoami_output
+
+- name: Display the result of whoami
+  debug:
+    msg: "The result of whoami is: {{ whoami_output.stdout }}"
+
+- name: Update package list
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Install Podman
+  become: yes
+  apt:
+    name: podman
+    state: present
+
+- name: Authenticate to the container registry
+  command: podman login alegazCP2ContainerRegistry.azurecr.io -u "{{ registry_username }}" -p "{{registry_password}}"
+
+- name: Pull NGINX image
+  containers.podman.podman_image:
+    name: alegazCP2ContainerRegistry.azurecr.io/nginx
+    state: present
+
+- name: Check NGINX image
+  command: podman images
+  register: images_output
+
+- name: Show pulled images
+  debug:
+    msg: "{{ images_output.stdout_lines }}"
+
+- name: Run a container with Podman
+  containers.podman.podman_container:
+    name: nginx_container
+    image: alegazCP2ContainerRegistry.azurecr.io/nginx
+    state: started
+    ports:
+      - "8090:80"
+    detach: true
+
+- name: Check running containers
+  command: podman ps
+  register: ps_output
+
+- name: Display running containers
+  debug:
+    msg: "{{ ps_output.stdout_lines }}"
+
+
