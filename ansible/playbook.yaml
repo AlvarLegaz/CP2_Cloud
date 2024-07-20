@@ -1,28 +1,25 @@
 ---
-- hosts: vm1_azure
+- hosts: local
   vars_prompt:
-    
-    - name: "registry_az_user"
-      prompt: "Azure account username"
-      private: no
-    
+
     - name: "registry_az_password"
       prompt: "Azure account password"
-      private: yes  
+      private: yes
       
-    - name: "registry_username"
-      prompt: "Azure container register username"
-      private: no
+    - name: "registry_password"
+      prompt: "Azure container register password"
+      private: yes
+ 
+  roles:
+    - acr
+    - aks
+
+- hosts: vm1_azure
+  vars_prompt:
 
     - name: "registry_password"
       prompt: "Azure container register password"
       private: yes
-    
-    - name: "registry_k8bs"
-      prompt: "Azure AKS cluster name"
-      private: no  
+ 
   roles:
-    - acr
     - vm_and_nginx
-    - aks
-

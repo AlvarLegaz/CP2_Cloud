@@ -24,6 +24,7 @@ VM_PUBLIC_IP=$(terraform output -raw public_ip_address)
 ACR_NAME=$(terraform output -raw acr_name)
 ACR_ADMIN_USERNAME=$(terraform output -raw acr_admin_username)
 ACR_ADMIN_PASSWORD=$(terraform output -raw acr_admin_password)
+AKS_CULSTER_NAME=$(terraform output -raw kubernetes_cluster_name)
 
 cd ..
 # Muestra los datos de despliegue por pantalla
@@ -33,6 +34,7 @@ echo "VM_PUBLIC_IP: $VM_PUBLIC_IP"
 echo "ACR_NAME: $ACR_NAME"
 echo "ACR_ADMIN_USERNAME: $ACR_ADMIN_USERNAME"
 echo "ACR_ADMIN_PASSWORD: $ACR_ADMIN_PASSWORD"
+echo "AKS_CULSTER_NAME: $AKS_CULSTER_NAME"
 
 # Escribe los datos de despliegue en fichero
 echo "RG_NAME: $RG_NAME" > deploy_terraform_output.txt
@@ -41,6 +43,7 @@ echo "VM_PUBLIC_IP: $VM_PUBLIC_IP" >> deploy_terraform_output.txt
 echo "ACR_NAME: $ACR_NAME" >> deploy_terraform_output.txt
 echo "ACR_ADMIN_USERNAME: $ACR_ADMIN_USERNAME" >> deploy_terraform_output.txt
 echo "ACR_ADMIN_PASSWORD: $ACR_ADMIN_PASSWORD" >> deploy_terraform_output.txt
+echo "AKS_CULSTER_NAME: $AKS_CULSTER_NAME" >> deploy_terraform_output.txt
 
 # Solicita el nombre de usuario para la conexión SSH
 #echo "Por favor, introduce el nombre de usuario para la conexión SSH:"

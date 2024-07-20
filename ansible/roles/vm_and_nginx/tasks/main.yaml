@@ -18,7 +18,7 @@
     state: present
 
 - name: Authenticate to the container registry
-  command: podman login alegazCP2ContainerRegistry.azurecr.io -u "{{ registry_username }}" -p "{{registry_password}}"
+  command: podman login alegazCP2ContainerRegistry.azurecr.io -u alegazCP2ContainerRegistry -p "{{registry_password}}"
 
 - name: Pull NGINX image
   containers.podman.podman_image:
