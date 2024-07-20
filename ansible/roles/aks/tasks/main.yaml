@@ -1,0 +1,24 @@
+- name: Download and install Azure CLI
+  become: yes
+  ansible.builtin.shell: |
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+- name: Install az aks
+  become: yes
+  ansible.builtin.shell: |
+    az aks install-cli
+
+- name: Logging on Azure Account
+  command: az login -u {{ registry_az_user }} -p {{ registry_az_password }}
+  
+- name: Get AKS creddentials 
+  command: az aks get-credentials --resource-group CP2_ResourceGroup  --name alegazk8s
+  
+- name: Deploy services in AKS  
+  ansible.builtin.shell: |
+        kubectl apply -f /home/alegaz/Desktop/Curso_DevOps_Cloud/CP2_Cloud/kubernetes/k8s_vote_app.yaml
+  
+- name: Verify deploy   
+  command: kubectl get services
+
+
