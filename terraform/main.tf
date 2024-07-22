@@ -24,12 +24,12 @@ terraform {
   required_version = ">= 1.1.0"
 }
 
-#Define el proveedor
+#Define the providers
 provider "azurerm" {
   features {}
 }
 
-#Define el resource group
+#Define resource group
 resource "azurerm_resource_group" "rg" {
   name     = "CP2_ResourceGroup"
   location = var.location
@@ -51,7 +51,7 @@ resource "azurerm_storage_account" "stAccount" {
   }
 }
 
-#Define el cluster de kubernetes
+Define the Kubernetes cluster
 resource "azurerm_kubernetes_cluster" "k8s" {
   name                = "alegazk8s"
   location            = azurerm_resource_group.rg.location
@@ -82,7 +82,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 }
 
-#Define el resource group
+#Define the Container Registry
 resource "azurerm_container_registry" "acr" {
   name                = "alegazCP2ContainerRegistry"
   location            = azurerm_resource_group.rg.location
@@ -95,7 +95,7 @@ resource "azurerm_container_registry" "acr" {
   }
 }
 
-# Asigna el rol AcrPull al Managed Identity del AKS
+# Assign the container registry to the Kubernetes cluster
 resource "azurerm_role_assignment" "acr_pull" {
   scope                = azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
