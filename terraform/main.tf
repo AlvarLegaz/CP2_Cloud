@@ -51,7 +51,7 @@ resource "azurerm_storage_account" "stAccount" {
   }
 }
 
-Define the Kubernetes cluster
+# Define the Kubernetes cluster
 resource "azurerm_kubernetes_cluster" "k8s" {
   name                = "alegazk8s"
   location            = azurerm_resource_group.rg.location
