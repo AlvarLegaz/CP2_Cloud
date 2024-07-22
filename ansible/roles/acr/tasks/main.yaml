@@ -1,8 +1,8 @@
-- name: Ejecutar el comando whoami
+- name: Execute whoami command
   command: whoami
   register: whoami_output
 
-- name: Mostrar el resultado de whoami
+- name: Show whoami command result
   debug:
     msg: "El resultado de whoami es: {{ whoami_output.stdout }}"
 
@@ -17,15 +17,15 @@
     name: skopeo
     state: present
 
-- name: Autenticarse en skopeo
+- name: Login on skopeo
   command: skopeo login -u alegazCP2ContainerRegistry -p {{ registry_password }} alegazCP2ContainerRegistry.azurecr.io
 
-- name: Copia repo en acr
+- name: Copy NGINX container image  in ACR
   command: skopeo copy docker://docker.io/nginx:latest docker://alegazCP2ContainerRegistry.azurecr.io/nginx:latest
 
-- name: Copia repo en acr
+- name: Copy Azure Vote Front container image in ACR
   command: skopeo copy docker://mcr.microsoft.com/azuredocs/azure-vote-front:v1 docker://alegazCP2ContainerRegistry.azurecr.io/azure-vote-front:v1
 
-- name: Copia repo en acr
+- name: Copy Redis container image  in ACR
   command: skopeo copy docker://mcr.microsoft.com/oss/bitnami/redis:6.0.8 docker://alegazCP2ContainerRegistry.azurecr.io/redis:6.0.8
 
