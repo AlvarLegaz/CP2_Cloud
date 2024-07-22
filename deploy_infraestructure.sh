@@ -2,21 +2,21 @@
 
 cd terraform
 
-# Inicializa Terraform
-echo "Inicializando Terraform..."
+# Init Terraform
+echo "Ini Terraform..."
 terraform init
 
 # Ejecuta el plan de Terraform
-echo "Ejecutando el plan de Terraform..."
+echo "Initializing Terraform plan..."
 terraform plan
 
-# Aplica el plan de Terraform
-echo "Aplicando el plan de Terraform..."
+# Apply Terraform plan
+echo "Applying Terraform plan..."
 terraform apply -auto-approve
 
-# Muestra salidas del despliegue y las almacena en fichero de salidas
+# Show and save deploy output data.
 
-echo "Datos del despliegue"
+echo "Deploy output data"
 
 RG_NAME=$(terraform output -raw resource_group_name)
 VM_USERNAME=$(terraform output -raw vm_username)
@@ -27,7 +27,7 @@ ACR_ADMIN_PASSWORD=$(terraform output -raw acr_admin_password)
 AKS_CULSTER_NAME=$(terraform output -raw kubernetes_cluster_name)
 
 cd ..
-# Muestra los datos de despliegue por pantalla
+# Display output data
 echo "RG_NAME: $RG_NAME"
 echo "VM_USERNAME: $VM_USERNAME"
 echo "VM_PUBLIC_IP: $VM_PUBLIC_IP"
@@ -36,7 +36,7 @@ echo "ACR_ADMIN_USERNAME: $ACR_ADMIN_USERNAME"
 echo "ACR_ADMIN_PASSWORD: $ACR_ADMIN_PASSWORD"
 echo "AKS_CULSTER_NAME: $AKS_CULSTER_NAME"
 
-# Escribe los datos de despliegue en fichero
+# Save output data
 echo "RG_NAME: $RG_NAME" > deploy_terraform_output.txt
 echo "VM_USERNAME: $VM_USERNAME" >> deploy_terraform_output.txt
 echo "VM_PUBLIC_IP: $VM_PUBLIC_IP" >> deploy_terraform_output.txt
@@ -45,22 +45,14 @@ echo "ACR_ADMIN_USERNAME: $ACR_ADMIN_USERNAME" >> deploy_terraform_output.txt
 echo "ACR_ADMIN_PASSWORD: $ACR_ADMIN_PASSWORD" >> deploy_terraform_output.txt
 echo "AKS_CULSTER_NAME: $AKS_CULSTER_NAME" >> deploy_terraform_output.txt
 
-# Solicita el nombre de usuario para la conexión SSH
-#echo "Por favor, introduce el nombre de usuario para la conexión SSH:"
-#read SSH_USER
-
-# Intenta establecer una conexión SSH
-# echo "Intentando establecer una conexión SSH a la máquina virtual..."
-# ssh ${SSH_USER}@${VM_IP} -i /home/alegaz/.ssh/id_rsa
-
-# Pregunta si quieres ejecutar el comando 'terraform destroy'
+# Asks if you want to run the 'terraform destroy' command
 cd terraform
-echo "¿Quieres ejecutar el comando 'terraform destroy'? (s/n)"
+echo "Do you want to run the 'terraform destroy' command? (y/n)"
 read DESTROY
 
-if [ "$DESTROY" = "s" ]; then
-  echo "Ejecutando 'terraform destroy'..."
+if [ "$DESTROY" = "y" ]; then
+  echo "Running 'terraform destroy'..."
   terraform destroy -auto-approve
 else
-  echo "No se ejecutará 'terraform destroy'."
+  echo "'Terraform destroy' will not be run."
 fi
