@@ -1,4 +1,4 @@
-# Creamos una máquina virtual
+# Create virtual machine
 resource "azurerm_linux_virtual_machine" "myVM1" {
   name                = "cp2-vm1"
   resource_group_name = azurerm_resource_group.rg.name
@@ -10,7 +10,7 @@ resource "azurerm_linux_virtual_machine" "myVM1" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub") # Generar clave en PC trabajo usando p.e.ssh-keygen
+    public_key = file("~/.ssh/id_rsa.pub") # Generate key on work PC using e.g. ssh-keygen
   }
 
   os_disk {
