@@ -1,4 +1,4 @@
-# Creación de una red (Virtual network)
+# Creation of a network (Virtual network)
 resource "azurerm_virtual_network" "myNet" {
   name                  =  "kubernetesnet"
   address_space         =  ["10.0.0.0/16"]
@@ -10,7 +10,7 @@ resource "azurerm_virtual_network" "myNet" {
   }
 }
 
-# Creación de subnet
+# Creation of subnet
 resource "azurerm_subnet" "mySubNet" {
   name                  =  "terraformsubnet"
   resource_group_name   =  azurerm_resource_group.rg.name
@@ -18,7 +18,7 @@ resource "azurerm_subnet" "mySubNet" {
   address_prefixes      =  ["10.0.1.0/24"]
 }
 
-#Cracion de interfaz de red (NIC)
+# Creation of network interface (NIC)
 resource "azurerm_network_interface" "myNIC" {
   name                = "vmnic"
   location            = azurerm_resource_group.rg.location
@@ -37,7 +37,7 @@ resource "azurerm_network_interface" "myNIC" {
     }
 }
 
-# Creación IP Pública
+# Creation of Public IP
 resource "azurerm_public_ip" "myPublicIp1"{
   name  =  "vmip1"
   location              =  azurerm_resource_group.rg.location
