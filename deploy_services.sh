@@ -2,7 +2,7 @@
 
 cd ansible
 
-echo "Ejecutando playbook"
+echo "Running playbook"
 ansible-playbook -i inventario playbook.yaml -K
 
 
